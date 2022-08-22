@@ -51,13 +51,8 @@
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
         ],
-        "install-hooks": [
-            "cp pre-commit-hook.sh .git/hooks/pre-commit",
-            "chmod +x .git/hooks/pre-commit",
-            "./vendor/bin/phpcs --config-set show_warnings 0"
-        ],
         "post-install-cmd": [
-            "@install-hooks"
+            "@php artisan git:install-hooks"
         ]
     },
     "extra": {
