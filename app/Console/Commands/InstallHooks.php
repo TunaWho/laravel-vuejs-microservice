@@ -29,11 +29,12 @@ class InstallHooks extends Command
      * Execute the console command.
      *
      * @return null|bool
+     *
      * @throws \ReflectionException
      */
     public function handle()
     {
-        if (!app()->isLocal()) {
+        if (! app()->isLocal()) {
             return 1;
         }
 
@@ -49,18 +50,19 @@ class InstallHooks extends Command
     /**
      * Install the hook command.
      *
-     * @param string $class
+     * @param  string  $class
      * @return bool
+     *
      * @throws \ReflectionException
      */
     protected function installHook(string $hook, string $class): bool
     {
         $signature = $this->getCommandSignature($class);
-        $script = $this->getHookScript($signature);
-        $path = base_path('.git/hooks/' . $hook);
+        $script    = $this->getHookScript($signature);
+        $path      = base_path('.git/hooks/' . $hook);
 
         if (file_exists($path) && md5_file($path) != md5($script)) {
-            if (!$this->confirmToProceed($path . ' already exists, do you want to overwrite it?', true)) {
+            if (! $this->confirmToProceed($path . ' already exists, do you want to overwrite it?', true)) {
                 return false;
             }
         }
@@ -71,16 +73,17 @@ class InstallHooks extends Command
     /**
      * Get the given command's class signature (e.g. git:pre-commit-hook).
      *
-     * @param string $class
+     * @param  string  $class
      * @return string
+     *
      * @throws \ReflectionException
      */
     protected function getCommandSignature(string $class): string
     {
-        $reflect = new ReflectionClass($class);
+        $reflect    = new ReflectionClass($class);
         $properties = $reflect->getDefaultProperties();
 
-        if (!preg_match('/^(\S+)/', $properties['signature'], $matches)) {
+        if (! preg_match('/^(\S+)/', $properties['signature'], $matches)) {
             throw new RuntimeException('Cannot read signature of ' . $class);
         }
 
@@ -92,7 +95,7 @@ class InstallHooks extends Command
     /**
      * Get the hook script content.
      *
-     * @param string $signature
+     * @param  string  $signature
      * @return string
      */
     protected function getHookScript(string $signature): string
@@ -105,18 +108,18 @@ class InstallHooks extends Command
     /**
      * Writes the git hook script file and return true on success, false otherwise.
      *
-     * @param string $path
-     * @param string $script
+     * @param  string  $path
+     * @param  string  $script
      * @return bool
      */
     protected function writeHookScript(string $path, string $script): bool
     {
-        if (!$result = file_put_contents($path, $script)) {
+        if (! $result = file_put_contents($path, $script)) {
             return false;
         }
 
         // read + write for owner, execute for everyone
-        if (!chmod($path, 0755)) {
+        if (! chmod($path, 0755)) {
             return false;
         }
 

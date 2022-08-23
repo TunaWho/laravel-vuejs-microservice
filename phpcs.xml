@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <ruleset name="PHP_CodeSniffer">
     <description>The coding standard for our project.</description>
-    <rule ref="PSR2"/>
     <rule ref="PSR1"/>
     <rule ref="PSR12"/>
     <rule ref="Squiz"/>
@@ -13,6 +12,9 @@
     <rule ref="Squiz.Commenting">
         <exclude-pattern>routes/*</exclude-pattern>
         <exclude-pattern>config/*</exclude-pattern>
+    </rule>
+    <rule ref="Squiz.Commenting.FunctionComment">
+        <exclude-pattern>Traits/*</exclude-pattern>
     </rule>
     <rule ref="PEAR.Functions.FunctionCallSignature">
         <exclude-pattern>routes/*</exclude-pattern>
@@ -37,10 +39,25 @@
     <rule ref="PEAR.Commenting.FileComment.Missing">
         <severity>0</severity>
     </rule>
+    <rule ref="PSR12.ControlStructures.ControlStructureSpacing.FirstExpressionLine">
+        <severity>0</severity>
+    </rule>
     <rule ref="Squiz.Commenting.FileComment.Missing">
         <severity>0</severity>
     </rule>
     <rule ref="Squiz.Commenting.ClassComment.Missing">
+        <severity>0</severity>
+    </rule>
+    <rule ref="Squiz.Commenting.FunctionComment.InvalidReturn">
+        <severity>0</severity>
+    </rule>
+    <rule ref="Squiz.Commenting.FunctionComment.IncorrectParamVarName">
+        <severity>0</severity>
+    </rule>
+    <rule ref="Squiz.Commenting.FunctionComment.SpacingAfterParamType">
+        <severity>0</severity>
+    </rule>
+    <rule ref="Squiz.Commenting.FunctionComment.ScalarTypeHintMissing">
         <severity>0</severity>
     </rule>
     <rule ref="PEAR.Commenting.ClassComment.Missing">
@@ -91,9 +108,6 @@
     <rule ref="Generic.Formatting.MultipleStatementAlignment.NotSame">
         <severity>0</severity>
     </rule>
-    <rule ref="Squiz.Commenting.FunctionComment.TypeHintMissing">
-        <severity>0</severity>
-    </rule>
     <rule ref="Squiz.Arrays.ArrayDeclaration.DoubleArrowNotAligned">
         <severity>0</severity>
     </rule>
@@ -103,10 +117,16 @@
     <rule ref="Generic.Formatting.MultipleStatementAlignment.NotSame">
         <severity>0</severity>
     </rule>
+    <rule ref="Generic.Commenting.DocComment.NonParamGroup">
+        <severity>0</severity>
+    </rule>
     <rule ref="Squiz.NamingConventions.ValidVariableName.MemberNotCamelCaps">
         <severity>0</severity>
     </rule>
     <rule ref="Squiz.Formatting.OperatorBracket.MissingBrackets">
+        <severity>0</severity>
+    </rule>
+    <rule ref="Squiz.Commenting.VariableComment.IncorrectVarType">
         <severity>0</severity>
     </rule>
     <rule ref="Squiz.WhiteSpace.FunctionSpacing">
@@ -114,10 +134,13 @@
            <property name="spacing" value="1"/>
        </properties>
     </rule>
+    <rule ref="Squiz.WhiteSpace.MemberVarSpacing">
+        <severity>0</severity>
+    </rule>
     <rule ref="Generic.Files.LineLength">
         <exclude-pattern>route/*</exclude-pattern>
         <properties>
-           <property name="lineLimit" value="80"/>
+           <property name="lineLimit" value="120"/>
            <!-- <property name="absoluteLineLimit" value="80"/> -->
            <property name="ignoreComments" value="true"/>
        </properties>
@@ -138,6 +161,12 @@
             <property name="spacing" value="0" />
         </properties>
     </rule>
+    <rule ref="Generic.NamingConventions.TraitNameSuffix.Missing">
+        <severity>0</severity>
+    </rule>
+    <rule ref="Generic.Commenting.DocComment.MissingShort">
+        <severity>0</severity>
+    </rule>
 
     <!-- list file using -->
     <file>app</file>
@@ -146,7 +175,6 @@
     <file>database</file>
     <file>resources</file>
     <file>routes</file>
-    <file>tests</file>
 
     <!-- list file exclude -->
     <exclude-pattern>routes</exclude-pattern>
@@ -163,8 +191,8 @@
     <exclude-pattern>*/database/*</exclude-pattern>
     <exclude-pattern>*/seeders/*</exclude-pattern>
     <exclude-pattern>*/seeds/*</exclude-pattern>
+    <exclude-pattern>*/tests/*</exclude-pattern>
     <exclude-pattern>*.blade.php</exclude-pattern>
-    <exclude-pattern>resources/lang/*</exclude-pattern>
     <exclude-pattern>*\.(inc|css|js)</exclude-pattern>
 
     <!-- Show progression -->

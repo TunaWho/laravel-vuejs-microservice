@@ -28,11 +28,12 @@ class PreCommitHook extends Command
      * Execute the console command.
      *
      * @return int
+     *
      * @throws \JakubOnderka\PhpConsoleColor\InvalidStyleException
      */
     public function handle()
     {
-        if (!config('git-commit-checker.enabled')) {
+        if (! config('git-commit-checker.enabled')) {
             return false;
         }
 
@@ -47,13 +48,15 @@ class PreCommitHook extends Command
         }
 
         $this->info('Running PHP lint...');
-        if (!$this->lint($changed)) {
+
+        if (! $this->lint($changed)) {
             exit($this->fails());
         }
 
         $this->info('Checking PSR-2 Coding Standard...');
         $start = now();
-        if (!$this->checkPsr2($changed)) {
+
+        if (! $this->checkPsr2($changed)) {
             exit($this->fails());
         }
         $end = now();
@@ -74,7 +77,7 @@ class PreCommitHook extends Command
         $changed = [];
 
         foreach ($this->getChangedFiles() as $path) {
-            if (Str::endsWith($path, '.php') && !Str::endsWith($path, '.blade.php')) {
+            if (Str::endsWith($path, '.php') && ! Str::endsWith($path, '.blade.php')) {
                 $changed[] = $path;
             }
         }
@@ -89,7 +92,7 @@ class PreCommitHook extends Command
      */
     protected function getChangedFiles(): array
     {
-        if (!$this->exec($cmd = 'git status --short', $output)) {
+        if (! $this->exec($cmd = 'git status --short', $output)) {
             throw new RuntimeException('Unable to run command: ' . $cmd);
         }
 
@@ -107,9 +110,9 @@ class PreCommitHook extends Command
     /**
      * Execute the command, return true if status is success, false otherwise.
      *
-     * @param string $command
-     * @param array &$output
-     * @param int &$status
+     * @param  string  $command
+     * @param  array  &$output
+     * @param  int  &$status
      * @return bool
      */
     protected function exec(string $command, &$output = null, &$status = null): bool
@@ -123,18 +126,18 @@ class PreCommitHook extends Command
      * Parses the git status line and return the changed file or null if the
      * file hasn't changed.
      *
-     * @param string $line
+     * @param  string  $line
      * @return string|null
      */
     protected function parseGitStatus(string $line): ?string
     {
-        if (!preg_match('/^(.)(.)\s(\S+)(\s->\S+)?$/', $line, $matches)) {
+        if (! preg_match('/^(.)(.)\s(\S+)(\s->\S+)?$/', $line, $matches)) {
             return null; // ignore incorrect lines
         }
 
         [, $first,, $path] = $matches;
 
-        if (!in_array($first, ['M', 'A'])) {
+        if (! in_array($first, ['M', 'A'])) {
             return null;
         }
 
@@ -143,9 +146,10 @@ class PreCommitHook extends Command
 
     /**
      * Lint the given files (using JakubOnderka/PHP-Parallel-Lint).
+     *
      * @see https://github.com/JakubOnderka/PHP-Parallel-Lint
      *
-     * @param array $changed
+     * @param  array  $changed
      * @return bool
      */
     protected function lint(array $changed): bool
@@ -162,7 +166,7 @@ class PreCommitHook extends Command
             throw new RuntimeException('Unable to get the lint result');
         }
 
-        if (!$this->option('quiet') && trim($output)) {
+        if (! $this->option('quiet') && trim($output)) {
             $this->output->writeln(trim($output));
         }
 
@@ -176,7 +180,7 @@ class PreCommitHook extends Command
      * Opens the parallel-lint program as a process and return the resource
      * (the pipes can be obtained as an out-argument).
      *
-     * @param array &$pipes
+     * @param  array  &$pipes
      * @return resource
      */
     protected function openParallelLintProcess(&$pipes = null)
@@ -186,7 +190,7 @@ class PreCommitHook extends Command
             '--no-progress',
         ];
 
-        if (!$this->option('no-ansi')) {
+        if (! $this->option('no-ansi')) {
             $options[] = '--colors';
         }
 
@@ -199,8 +203,8 @@ class PreCommitHook extends Command
      * Open a process and give the pipes to stdin, stdout, stderr in $pipes
      * out-parameter. Returns the opened process as a resource.
      *
-     * @param string $cmd
-     * @param array &$pipes
+     * @param  string  $cmd
+     * @param  array  &$pipes
      * @return resource
      */
     protected function openProcess(string $cmd, &$pipes = null)
@@ -236,7 +240,7 @@ class PreCommitHook extends Command
     /**
      * Checks the PSR-2 compliance of changed files.
      *
-     * @param array $changed
+     * @param  array  $changed
      * @return bool
      */
     protected function checkPsr2(array $changed): bool
@@ -248,7 +252,7 @@ class PreCommitHook extends Command
             '--ignore=' . implode(',', $ignored),
         ];
 
-        if (!$this->option('no-ansi')) {
+        if (! $this->option('no-ansi')) {
             $options[] = '--colors';
         }
 
@@ -256,7 +260,7 @@ class PreCommitHook extends Command
 
         $status = $this->exec($cmd, $output);
 
-        if (!$this->option('quiet') && $output) {
+        if (! $this->option('quiet') && $output) {
             $this->output->writeln(implode("\n", $output));
         }
 

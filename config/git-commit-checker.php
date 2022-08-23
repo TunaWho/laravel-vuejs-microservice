@@ -4,9 +4,12 @@ use App\Console\Commands\PreCommitHook;
 
 return [
     'enabled' => env('GIT_COMMIT_CHECKER_ENABLED', true),
-    'psr2' => [
+    'psr2'    => [
         'standard' => __DIR__ . '/../phpcs.xml',
-        'ignored' => [],
+        'ignored'  => [
+            '*/lang/*',
+            '*/public/*'
+        ],
     ],
     'hooks' => [
         'pre-commit' => PreCommitHook::class,

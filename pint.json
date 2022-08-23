@@ -5,6 +5,23 @@
         "array_syntax": {
             "syntax": "short"
         },
+        "no_extra_blank_lines": {
+            "tokens": [
+                "attribute",
+                "break",
+                "case",
+                "continue",
+                "curly_brace_block",
+                "default",
+                "extra",
+                "parenthesis_brace_block",
+                "return",
+                "square_brace_block",
+                "switch",
+                "throw",
+                "use_trait"
+            ]
+        },
         "blank_line_before_statement": {
             "statements": [
                 "break",
@@ -26,8 +43,9 @@
             "position_after_control_structures": "same",
             "position_after_functions_and_oop_constructs": "next"
         },
-        "cast_spaces": false,
-        "concat_space": true,
+        "concat_space": {
+            "spacing": "one"
+        },
         "binary_operator_spaces": {
             "default": "align_single_space_minimal"
         }

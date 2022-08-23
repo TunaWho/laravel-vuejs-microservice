@@ -23,7 +23,7 @@ trait JsonRespondController
      *
      * @return int
      */
-    public function getHTTPStatusCode()
+    public function getHttpStatusCode()
     {
         return $this->httpStatusCode;
     }
@@ -34,7 +34,7 @@ trait JsonRespondController
      * @param  int  $statusCode
      * @return self
      */
-    public function setHTTPStatusCode($statusCode)
+    public function setHttpStatusCode($statusCode)
     {
         $this->httpStatusCode = $statusCode;
 
@@ -68,7 +68,7 @@ trait JsonRespondController
      * Sends a JSON to the consumer.
      *
      * @param  array  $data
-     * @param  array  $headers  [description]
+     * @param  array  $headers [description]
      * @return JsonResponse
      */
     public function respond($data, $headers = [])
@@ -85,8 +85,8 @@ trait JsonRespondController
     public function respondNotFound()
     {
         return $this->setHTTPStatusCode(404)
-                    ->setErrorCode(31)
-                    ->respondWithError();
+            ->setErrorCode(31)
+            ->respondWithError();
     }
 
     /**
@@ -99,8 +99,8 @@ trait JsonRespondController
     public function respondValidatorFailed(Validator $validator)
     {
         return $this->setHTTPStatusCode(422)
-                    ->setErrorCode(32)
-                    ->respondWithError($validator->errors()->all());
+            ->setErrorCode(32)
+            ->respondWithError($validator->errors()->all());
     }
 
     /**
@@ -114,8 +114,8 @@ trait JsonRespondController
     public function respondNotTheRightParameters($message = null)
     {
         return $this->setHTTPStatusCode(500)
-                    ->setErrorCode(33)
-                    ->respondWithError($message);
+            ->setErrorCode(33)
+            ->respondWithError($message);
     }
 
     /**
@@ -128,8 +128,8 @@ trait JsonRespondController
     public function respondInvalidQuery($message = null)
     {
         return $this->setHTTPStatusCode(500)
-                    ->setErrorCode(40)
-                    ->respondWithError($message);
+            ->setErrorCode(40)
+            ->respondWithError($message);
     }
 
     /**
@@ -142,8 +142,8 @@ trait JsonRespondController
     public function respondInvalidParameters($message = null)
     {
         return $this->setHTTPStatusCode(422)
-                    ->setErrorCode(41)
-                    ->respondWithError($message);
+            ->setErrorCode(41)
+            ->respondWithError($message);
     }
 
     /**
@@ -156,8 +156,8 @@ trait JsonRespondController
     public function respondUnauthorized($message = null)
     {
         return $this->setHTTPStatusCode(401)
-                    ->setErrorCode(42)
-                    ->respondWithError($message);
+            ->setErrorCode(42)
+            ->respondWithError($message);
     }
 
     /**
@@ -168,12 +168,14 @@ trait JsonRespondController
      */
     public function respondWithError($message = null)
     {
-        return $this->respond([
-            'error' => [
-                'message'    => $message ?? config('api.error_codes.'.$this->getErrorCode()),
-                'error_code' => $this->getErrorCode(),
-            ],
-        ]);
+        return $this->respond(
+            [
+                'error' => [
+                    'message'    => $message ?? config('api.error_codes.' . $this->getErrorCode()),
+                    'error_code' => $this->getErrorCode(),
+                ],
+            ]
+        );
     }
 
     /**
@@ -185,9 +187,11 @@ trait JsonRespondController
      */
     public function respondObjectDeleted($id)
     {
-        return $this->respond([
-            'deleted' => true,
-            'id'      => $id,
-        ]);
+        return $this->respond(
+            [
+                'deleted' => true,
+                'id'      => $id,
+            ]
+        );
     }
 }
