@@ -48,6 +48,12 @@
     <rule ref="Squiz.Commenting.ClassComment.Missing">
         <severity>0</severity>
     </rule>
+    <rule ref="Squiz.ControlStructures.SwitchDeclaration.BreakIndent">
+        <severity>0</severity>
+    </rule>
+    <rule ref="Squiz.Commenting.FunctionComment.TypeHintMissing">
+        <severity>0</severity>
+    </rule>
     <rule ref="Squiz.Commenting.FunctionComment.InvalidReturn">
         <severity>0</severity>
     </rule>
@@ -55,6 +61,12 @@
         <severity>0</severity>
     </rule>
     <rule ref="Squiz.Commenting.FunctionComment.SpacingAfterParamType">
+        <severity>0</severity>
+    </rule>
+    <rule ref="Squiz.ControlStructures.ElseIfDeclaration.NotAllowed">
+        <severity>0</severity>
+    </rule>
+    <rule ref="Squiz.Commenting.FunctionComment.MissingParamComment">
         <severity>0</severity>
     </rule>
     <rule ref="Squiz.Commenting.FunctionComment.ScalarTypeHintMissing">
@@ -135,6 +147,9 @@
        </properties>
     </rule>
     <rule ref="Squiz.WhiteSpace.MemberVarSpacing">
+        <severity>0</severity>
+    </rule>
+    <rule ref="Squiz.Commenting.FunctionComment.MissingReturn">
         <severity>0</severity>
     </rule>
     <rule ref="Generic.Files.LineLength">

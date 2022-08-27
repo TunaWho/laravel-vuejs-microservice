@@ -73,7 +73,7 @@ trait JsonRespondController
      */
     public function respond($data, $headers = [])
     {
-        return response()->json($data, $this->getHTTPStatusCode(), $headers);
+        return response()->json($data, $this->getHttpStatusCode(), $headers);
     }
 
     /**
@@ -84,7 +84,7 @@ trait JsonRespondController
      */
     public function respondNotFound()
     {
-        return $this->setHTTPStatusCode(404)
+        return $this->setHttpStatusCode(404)
             ->setErrorCode(31)
             ->respondWithError();
     }
@@ -98,7 +98,7 @@ trait JsonRespondController
      */
     public function respondValidatorFailed(Validator $validator)
     {
-        return $this->setHTTPStatusCode(422)
+        return $this->setHttpStatusCode(422)
             ->setErrorCode(32)
             ->respondWithError($validator->errors()->all());
     }
@@ -113,7 +113,7 @@ trait JsonRespondController
      */
     public function respondNotTheRightParameters($message = null)
     {
-        return $this->setHTTPStatusCode(500)
+        return $this->setHttpStatusCode(500)
             ->setErrorCode(33)
             ->respondWithError($message);
     }
@@ -127,7 +127,7 @@ trait JsonRespondController
      */
     public function respondInvalidQuery($message = null)
     {
-        return $this->setHTTPStatusCode(500)
+        return $this->setHttpStatusCode(500)
             ->setErrorCode(40)
             ->respondWithError($message);
     }
@@ -141,7 +141,7 @@ trait JsonRespondController
      */
     public function respondInvalidParameters($message = null)
     {
-        return $this->setHTTPStatusCode(422)
+        return $this->setHttpStatusCode(422)
             ->setErrorCode(41)
             ->respondWithError($message);
     }
@@ -155,7 +155,7 @@ trait JsonRespondController
      */
     public function respondUnauthorized($message = null)
     {
-        return $this->setHTTPStatusCode(401)
+        return $this->setHttpStatusCode(401)
             ->setErrorCode(42)
             ->respondWithError($message);
     }

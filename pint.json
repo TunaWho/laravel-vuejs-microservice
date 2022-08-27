@@ -5,10 +5,11 @@
         "array_syntax": {
             "syntax": "short"
         },
+        "Laravel/laravel_phpdoc_alignment": false,
+        "not_operator_with_successor_space": false,
         "no_extra_blank_lines": {
             "tokens": [
                 "attribute",
-                "break",
                 "case",
                 "continue",
                 "curly_brace_block",
@@ -24,7 +25,6 @@
         },
         "blank_line_before_statement": {
             "statements": [
-                "break",
                 "continue",
                 "declare",
                 "return",

@@ -33,7 +33,7 @@ class PreCommitHook extends Command
      */
     public function handle()
     {
-        if (! config('git-commit-checker.enabled')) {
+        if (!config('git-commit-checker.enabled')) {
             return false;
         }
 
@@ -49,14 +49,14 @@ class PreCommitHook extends Command
 
         $this->info('Running PHP lint...');
 
-        if (! $this->lint($changed)) {
+        if (!$this->lint($changed)) {
             exit($this->fails());
         }
 
-        $this->info('Checking PSR-2 Coding Standard...');
+        $this->info('Checking PSR-12 Coding Standard...');
         $start = now();
 
-        if (! $this->checkPsr2($changed)) {
+        if (!$this->checkPsr2($changed)) {
             exit($this->fails());
         }
         $end = now();
@@ -77,7 +77,7 @@ class PreCommitHook extends Command
         $changed = [];
 
         foreach ($this->getChangedFiles() as $path) {
-            if (Str::endsWith($path, '.php') && ! Str::endsWith($path, '.blade.php')) {
+            if (Str::endsWith($path, '.php') && !Str::endsWith($path, '.blade.php')) {
                 $changed[] = $path;
             }
         }
@@ -92,7 +92,7 @@ class PreCommitHook extends Command
      */
     protected function getChangedFiles(): array
     {
-        if (! $this->exec($cmd = 'git status --short', $output)) {
+        if (!$this->exec($cmd = 'git status --short', $output)) {
             throw new RuntimeException('Unable to run command: ' . $cmd);
         }
 
@@ -131,13 +131,13 @@ class PreCommitHook extends Command
      */
     protected function parseGitStatus(string $line): ?string
     {
-        if (! preg_match('/^(.)(.)\s(\S+)(\s->\S+)?$/', $line, $matches)) {
+        if (!preg_match('/^(.)(.)\s(\S+)(\s->\S+)?$/', $line, $matches)) {
             return null; // ignore incorrect lines
         }
 
         [, $first,, $path] = $matches;
 
-        if (! in_array($first, ['M', 'A'])) {
+        if (!in_array($first, ['M', 'A'])) {
             return null;
         }
 
@@ -166,7 +166,7 @@ class PreCommitHook extends Command
             throw new RuntimeException('Unable to get the lint result');
         }
 
-        if (! $this->option('quiet') && trim($output)) {
+        if (!$this->option('quiet') && trim($output)) {
             $this->output->writeln(trim($output));
         }
 
@@ -190,7 +190,7 @@ class PreCommitHook extends Command
             '--no-progress',
         ];
 
-        if (! $this->option('no-ansi')) {
+        if (!$this->option('no-ansi')) {
             $options[] = '--colors';
         }
 
@@ -252,7 +252,7 @@ class PreCommitHook extends Command
             '--ignore=' . implode(',', $ignored),
         ];
 
-        if (! $this->option('no-ansi')) {
+        if (!$this->option('no-ansi')) {
             $options[] = '--colors';
         }
 
@@ -260,7 +260,7 @@ class PreCommitHook extends Command
 
         $status = $this->exec($cmd, $output);
 
-        if (! $this->option('quiet') && $output) {
+        if (!$this->option('quiet') && $output) {
             $this->output->writeln(implode("\n", $output));
         }
 

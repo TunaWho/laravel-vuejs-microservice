@@ -8,7 +8,7 @@ return [
         'standard' => __DIR__ . '/../phpcs.xml',
         'ignored'  => [
             '*/lang/*',
-            '*/public/*'
+            '*/public/*',
         ],
     ],
     'hooks' => [

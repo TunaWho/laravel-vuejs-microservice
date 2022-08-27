@@ -34,7 +34,7 @@ class InstallHooks extends Command
      */
     public function handle()
     {
-        if (! app()->isLocal()) {
+        if (!app()->isLocal()) {
             return 1;
         }
 
@@ -62,7 +62,7 @@ class InstallHooks extends Command
         $path      = base_path('.git/hooks/' . $hook);
 
         if (file_exists($path) && md5_file($path) != md5($script)) {
-            if (! $this->confirmToProceed($path . ' already exists, do you want to overwrite it?', true)) {
+            if (!$this->confirmToProceed($path . ' already exists, do you want to overwrite it?', true)) {
                 return false;
             }
         }
@@ -83,7 +83,7 @@ class InstallHooks extends Command
         $reflect    = new ReflectionClass($class);
         $properties = $reflect->getDefaultProperties();
 
-        if (! preg_match('/^(\S+)/', $properties['signature'], $matches)) {
+        if (!preg_match('/^(\S+)/', $properties['signature'], $matches)) {
             throw new RuntimeException('Cannot read signature of ' . $class);
         }
 
@@ -114,12 +114,12 @@ class InstallHooks extends Command
      */
     protected function writeHookScript(string $path, string $script): bool
     {
-        if (! $result = file_put_contents($path, $script)) {
+        if (!$result = file_put_contents($path, $script)) {
             return false;
         }
 
         // read + write for owner, execute for everyone
-        if (! chmod($path, 0755)) {
+        if (!chmod($path, 0755)) {
             return false;
         }
 
