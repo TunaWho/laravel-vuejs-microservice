@@ -6,8 +6,6 @@ use App\Services\Helper\FilterTrait;
 
 abstract class AbstractBaseService
 {
-    use FilterTrait;
-
     /**
      * @var model Eloquent Model
      */

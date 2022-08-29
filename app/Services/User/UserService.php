@@ -3,10 +3,10 @@
 namespace App\Services\User;
 
 use App\Models\User;
-use App\Services\BaseService;
+use App\Services\AbstractBaseService;
 use DB;
 
-class UserService extends BaseService
+class UserService extends AbstractBaseService
 {
     /**
      * Constructor function for models are using in this service.
@@ -25,7 +25,7 @@ class UserService extends BaseService
      */
     public function users()
     {
-        return $this->model->latest();
+        return $this->model->query()->latest();
     }
 
     /**
@@ -36,7 +36,7 @@ class UserService extends BaseService
      */
     public function getUser($id)
     {
-        return $this->model->whereId($id)->first();
+        return $this->model->whereId($id)->firstOrFail();
     }
 
     /**
@@ -47,12 +47,24 @@ class UserService extends BaseService
      */
     public function createUser($dataUser)
     {
-        try {
-            return $this->model->create($dataUser);
-        } catch (\Error $errors) {
-            \Log::info($errors);
+        $user = $this->model->create($dataUser);
 
-            return false;
-        }
+        return $this->model->find($user->id);
+    }
+
+    /**
+     * It deletes a user by their id
+     *
+     * @param int $id The id of the user you want to delete.
+     *
+     * @return bool
+     */
+    public function deleteBy($id)
+    {
+        $user = $this->model->findOrFail($id);
+
+        $user->delete();
+
+        return true;
     }
 }

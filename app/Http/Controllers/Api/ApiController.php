@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Traits\JsonRespondController;
+use Illuminate\Support\Facades\Log;
 
 use function Safe\json_decode;
 
@@ -33,10 +34,6 @@ class ApiController extends Controller
                     }
 
                     $this->setLimitPerPage($request->input('limit'));
-                }
-
-                if ($request->has('with')) {
-                    $this->setWithParameter($request->input('with'));
                 }
 
                 // Make sure the JSON is well formatted if the call sends a JSON
