@@ -4,7 +4,7 @@ namespace App\Traits;
 
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 trait JsonRespondController
 {
@@ -31,7 +31,8 @@ trait JsonRespondController
     /**
      * Set HTTP status code of the response.
      *
-     * @param  int  $statusCode
+     * @param int  $statusCode
+     *
      * @return self
      */
     public function setHttpStatusCode($statusCode)
@@ -54,7 +55,8 @@ trait JsonRespondController
     /**
      * Set error code of the response.
      *
-     * @param  int  $errorCode
+     * @param int  $errorCode
+     *
      * @return self
      */
     public function setErrorCode($errorCode)
@@ -67,8 +69,9 @@ trait JsonRespondController
     /**
      * Sends a JSON to the consumer.
      *
-     * @param  array  $data
-     * @param  array  $headers [description]
+     * @param array  $data
+     * @param array  $headers [description]
+     *
      * @return JsonResponse
      */
     public function respond($data, $headers = [])
@@ -84,7 +87,7 @@ trait JsonRespondController
      */
     public function respondNotFound()
     {
-        return $this->setHttpStatusCode(404)
+        return $this->setHttpStatusCode(Response::HTTP_NOT_FOUND)
             ->setErrorCode(31)
             ->respondWithError();
     }
@@ -93,12 +96,13 @@ trait JsonRespondController
      * Sends an error when the validator failed.
      * Error Code = 32.
      *
-     * @param  Validator  $validator
+     * @param Validator  $validator
+     *
      * @return JsonResponse
      */
     public function respondValidatorFailed(Validator $validator)
     {
-        return $this->setHttpStatusCode(422)
+        return $this->setHttpStatusCode(Response::HTTP_UNPROCESSABLE_ENTITY)
             ->setErrorCode(32)
             ->respondWithError($validator->errors()->all());
     }
@@ -108,12 +112,13 @@ trait JsonRespondController
      * creating an object.
      * Error Code = 33.
      *
-     * @param  string  $message
+     * @param string  $message
+     *
      * @return JsonResponse
      */
     public function respondNotTheRightParameters($message = null)
     {
-        return $this->setHttpStatusCode(500)
+        return $this->setHttpStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR)
             ->setErrorCode(33)
             ->respondWithError($message);
     }
@@ -122,12 +127,13 @@ trait JsonRespondController
      * Sends a response invalid query (http 500) to the request.
      * Error Code = 40.
      *
-     * @param  string  $message
+     * @param string  $message
+     *
      * @return JsonResponse
      */
     public function respondInvalidQuery($message = null)
     {
-        return $this->setHttpStatusCode(500)
+        return $this->setHttpStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR)
             ->setErrorCode(40)
             ->respondWithError($message);
     }
@@ -136,12 +142,13 @@ trait JsonRespondController
      * Sends an error when the query contains invalid parameters.
      * Error Code = 41.
      *
-     * @param  string  $message
+     * @param string  $message
+     *
      * @return JsonResponse
      */
     public function respondInvalidParameters($message = null)
     {
-        return $this->setHttpStatusCode(422)
+        return $this->setHttpStatusCode(Response::HTTP_UNPROCESSABLE_ENTITY)
             ->setErrorCode(41)
             ->respondWithError($message);
     }
@@ -150,12 +157,13 @@ trait JsonRespondController
      * Sends a response unauthorized (401) to the request.
      * Error Code = 42.
      *
-     * @param  string  $message
+     * @param string  $message
+     *
      * @return JsonResponse
      */
     public function respondUnauthorized($message = null)
     {
-        return $this->setHttpStatusCode(401)
+        return $this->setHttpStatusCode(Response::HTTP_UNAUTHORIZED)
             ->setErrorCode(42)
             ->respondWithError($message);
     }
@@ -163,7 +171,8 @@ trait JsonRespondController
     /**
      * Sends a response with error.
      *
-     * @param  string|array  $message
+     * @param string|array  $message
+     *
      * @return JsonResponse
      */
     public function respondWithError($message = null)
@@ -182,7 +191,8 @@ trait JsonRespondController
      * Sends a response that the object has been deleted, and also indicates
      * the id of the object that has been deleted.
      *
-     * @param  int  $id
+     * @param int  $id
+     *
      * @return JsonResponse
      */
     public function respondObjectDeleted($id)

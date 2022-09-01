@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Traits\JsonRespondController;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 
 use function Safe\json_decode;
@@ -28,7 +29,7 @@ class ApiController extends Controller
             function ($request, $next) {
                 if ($request->has('limit')) {
                     if ($request->input('limit') > config('api.max_limit_per_page')) {
-                        return $this->setHttpStatusCode(400)
+                        return $this->setHttpStatusCode(Response::HTTP_BAD_REQUEST)
                             ->setErrorCode(30)
                             ->respondWithError();
                     }
@@ -44,12 +45,12 @@ class ApiController extends Controller
                         && $request->method() != 'DELETE'
                         && empty(json_decode($request->getContent()))
                     ) {
-                        return $this->setHttpStatusCode(400)
+                        return $this->setHttpStatusCode(Response::HTTP_BAD_REQUEST)
                             ->setErrorCode(37)
                             ->respondWithError();
                     }
                 } catch (\Safe\Exceptions\JsonException $e) {
-                    Log::info($e);
+                    // No error.
                 }
 
                 return $next($request);
@@ -66,7 +67,8 @@ class ApiController extends Controller
     }
 
     /**
-     * @param  int  $limit The number of items to return.
+     * @param int  $limit The number of items to return.
+     *
      * @return self
      */
     public function setLimitPerPage($limit)

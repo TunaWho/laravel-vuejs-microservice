@@ -8,7 +8,6 @@ use App\Http\Resources\UserResource;
 use App\Services\User\UserService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 
@@ -32,7 +31,8 @@ class UserController extends ApiController
     public function index()
     {
         try {
-            $users = $this->userService->users()
+            $users = $this->userService
+                ->users()
                 ->paginate($this->getLimitPerPage());
         } catch (QueryException $e) {
             return $this->respondInvalidQuery();
@@ -44,20 +44,20 @@ class UserController extends ApiController
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\User\UserRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param \App\Http\Requests\User\UserRequest  $request
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(UserRequest $request)
     {
         try {
-            $user = $this->userService->createUser($request->validated());
+            $user = $this->userService
+                ->createUser($request->validated());
         } catch (ModelNotFoundException $e) {
             Log::error($e->getMessage());
 
             return $this->respondNotFound();
         } catch (ValidationException $e) {
-            Log::error($e->getMessage());
-
             return $this->respondValidatorFailed($e->validator);
         } catch (QueryException $e) {
             Log::error($e->getMessage());
@@ -71,13 +71,14 @@ class UserController extends ApiController
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int  $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
         try {
-            $user = $this->userService->getUser($id);
+            $user = $this->userService->getUserBy($id);
         } catch (ModelNotFoundException $e) {
             return $this->respondNotFound();
         }
@@ -88,22 +89,36 @@ class UserController extends ApiController
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \App\Http\Requests\User\UserRequest  $request
+     * @param int  $userId
+     *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UserRequest $request, $userId)
     {
-        return [
-            $request,
-            $id,
-        ];
+        try {
+            $user = $this->userService
+                ->updateBy($userId, array_filter($request->validated()));
+        } catch (ModelNotFoundException $e) {
+            Log::error($e->getMessage());
+
+            return $this->respondNotFound();
+        } catch (ValidationException $e) {
+            return $this->respondValidatorFailed($e->validator);
+        } catch (QueryException $e) {
+            Log::error($e->getMessage());
+
+            return $this->respondInvalidQuery();
+        }
+
+        return new UserResource($user);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $userId
+     * @param int  $userId
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($userId)
@@ -115,8 +130,6 @@ class UserController extends ApiController
 
             return $this->respondNotFound();
         } catch (ValidationException $e) {
-            Log::error($e->getMessage());
-
             return $this->respondValidatorFailed($e->validator);
         } catch (QueryException $e) {
             Log::error($e->getMessage());

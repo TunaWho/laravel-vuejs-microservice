@@ -2,8 +2,6 @@
 
 namespace App\Services;
 
-use App\Services\Helper\FilterTrait;
-
 abstract class AbstractBaseService
 {
     /**

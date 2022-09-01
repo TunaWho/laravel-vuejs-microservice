@@ -129,9 +129,6 @@
     <rule ref="Generic.Formatting.MultipleStatementAlignment.NotSame">
         <severity>0</severity>
     </rule>
-    <rule ref="Generic.Commenting.DocComment.NonParamGroup">
-        <severity>0</severity>
-    </rule>
     <rule ref="Squiz.NamingConventions.ValidVariableName.MemberNotCamelCaps">
         <severity>0</severity>
     </rule>

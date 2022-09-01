@@ -4,7 +4,6 @@ namespace App\Services\User;
 
 use App\Models\User;
 use App\Services\AbstractBaseService;
-use DB;
 
 class UserService extends AbstractBaseService
 {
@@ -31,10 +30,11 @@ class UserService extends AbstractBaseService
     /**
      * Get the user with the given id.
      *
-     * @param  int  $id The id of the user you want to get.
+     * @param int  $id The id of the user you want to get.
+     *
      * @return Model
      */
-    public function getUser($id)
+    public function getUserBy($id)
     {
         return $this->model->whereId($id)->firstOrFail();
     }
@@ -42,7 +42,8 @@ class UserService extends AbstractBaseService
     /**
      * Create new user record
      *
-     * @param  array  $dataUser User resource.
+     * @param array  $dataUser User resource.
+     *
      * @return Model User created.
      */
     public function createUser($dataUser)
@@ -50,6 +51,22 @@ class UserService extends AbstractBaseService
         $user = $this->model->create($dataUser);
 
         return $this->model->find($user->id);
+    }
+
+    /**
+     * Create new user record
+     *
+     * @param int    $userId User's id.
+     * @param array  $data   Should be update into database.
+     *
+     * @return Model User created.
+     */
+    public function updateBy($userId, $data)
+    {
+        $user = $this->getUserBy($userId);
+        $user->update($data);
+
+        return $user;
     }
 
     /**
