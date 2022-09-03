@@ -134,7 +134,7 @@ trait JsonRespondController
     public function respondInvalidQuery($message = null)
     {
         return $this->setHttpStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR)
-            ->setErrorCode(40)
+            ->setErrorCode(38)
             ->respondWithError($message);
     }
 
@@ -149,7 +149,7 @@ trait JsonRespondController
     public function respondInvalidParameters($message = null)
     {
         return $this->setHttpStatusCode(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->setErrorCode(41)
+            ->setErrorCode(39)
             ->respondWithError($message);
     }
 
@@ -164,7 +164,7 @@ trait JsonRespondController
     public function respondUnauthorized($message = null)
     {
         return $this->setHttpStatusCode(Response::HTTP_UNAUTHORIZED)
-            ->setErrorCode(42)
+            ->setErrorCode(40)
             ->respondWithError($message);
     }
 

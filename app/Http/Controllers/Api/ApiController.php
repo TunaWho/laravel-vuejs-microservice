@@ -45,7 +45,7 @@ class ApiController extends Controller
                         && empty(json_decode($request->getContent()))
                     ) {
                         return $this->setHttpStatusCode(Response::HTTP_BAD_REQUEST)
-                            ->setErrorCode(37)
+                            ->setErrorCode(36)
                             ->respondWithError();
                     }
                 } catch (\Safe\Exceptions\JsonException $e) {
