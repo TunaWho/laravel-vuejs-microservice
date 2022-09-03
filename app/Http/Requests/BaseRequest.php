@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Traits\JsonRespondController;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 

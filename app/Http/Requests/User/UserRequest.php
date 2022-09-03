@@ -3,7 +3,6 @@
 namespace App\Http\Requests\User;
 
 use App\Http\Requests\BaseRequest;
-use Illuminate\Validation\Rule;
 
 class UserRequest extends BaseRequest
 {
@@ -16,30 +15,47 @@ class UserRequest extends BaseRequest
     {
         if ($this->isMethod('put') || $this->isMethod('patch')) {
             return [
-                'first_name' => ['nullable'],
-                'last_name'  => ['nullable'],
-                'email'      => [
+                'first_name' => [
+                    'nullable',
+                    'max:255',
+                ],
+                'last_name' => [
+                    'nullable',
+                    'max:255',
+                ],
+                'email' => [
                     'nullable',
                     'email',
+                    'max:255',
                 ],
                 'password' => [
                     'nullable',
+                    'confirmed',
                     !empty($this->password) ? 'min:8|' : '',
                     'min:8',
                     'max:255',
                 ],
             ];
-        }
+        }//end if
 
         return [
-            'first_name' => ['required'],
-            'last_name'  => ['required'],
-            'email'      => [
+            'first_name' => [
+                'required',
+                'max:255',
+            ],
+            'last_name' => [
+                'required',
+                'max:255',
+            ],
+            'email' => [
+                'required',
                 'email',
-                Rule::unique('users', 'email'),
+                'max:255',
+                'unique:users',
             ],
             'password' => [
                 'required',
+                'confirmed',
                 'min:8',
                 'max:255',
             ],

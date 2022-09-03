@@ -1,7 +1,11 @@
 <?php
 
+use App\Http\Controllers\Api\Auth\{
+    LoginController,
+    RegisterController,
+};
 use App\Http\Controllers\Api\{
-    User\UserController
+    User\UserController,
 };
 use Illuminate\Support\Facades\Route;
 
@@ -16,4 +20,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::apiResource('users', UserController::class);
+Route::post(
+    '/login',
+    [LoginController::class, 'login']
+)->name('login');
+
+Route::post(
+    '/register',
+    [RegisterController::class, 'register']
+)->name('register');
+
+Route::group([
+    'middleware' => ['auth:sanctum'],
+], function () {
+    Route::apiResource(
+        'users',
+        UserController::class
+    );
+});

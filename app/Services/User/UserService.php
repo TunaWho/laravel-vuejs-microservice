@@ -48,9 +48,7 @@ class UserService extends AbstractBaseService
      */
     public function createUser($dataUser)
     {
-        $user = $this->model->create($dataUser);
-
-        return $this->model->find($user->id);
+        return $this->model->firstOrCreate($dataUser);
     }
 
     /**

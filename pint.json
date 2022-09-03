@@ -8,6 +8,9 @@
         "Laravel/laravel_phpdoc_alignment": false,
         "Laravel/laravel_phpdoc_separation": false,
         "not_operator_with_successor_space": false,
+        "single_import_per_statement": {
+            "group_to_single_imports": false
+        },
         "no_extra_blank_lines": {
             "tokens": [
                 "attribute",

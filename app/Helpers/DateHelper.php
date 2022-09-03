@@ -17,8 +17,9 @@ class DateHelper
      * If timezone is given, it parse the date with this timezone.
      * Always return a date with default timezone (UTC).
      *
-     * @param  \DateTime|Carbon|string|null  $date
-     * @param  string  $timezone
+     * @param \DateTime|Carbon|string|null  $date
+     * @param string  $timezone
+     *
      * @return Carbon|null
      */
     public static function parseDateTime($date, $timezone = null): ?Carbon
@@ -54,8 +55,9 @@ class DateHelper
      * If timezone is given, it parse the date with this timezone.
      * Always return a date with default timezone (UTC).
      *
-     * @param  Carbon|string  $date
-     * @param  string  $timezone
+     * @param Carbon|string  $date
+     * @param string  $timezone
+     *
      * @return Carbon|null
      */
     public static function parseDate($date, $timezone = null): ?Carbon
@@ -83,7 +85,8 @@ class DateHelper
     /**
      * Return timestamp date format.
      *
-     * @param  Carbon  $date
+     * @param Carbon  $date
+     *
      * @return string|null
      */
     public static function getTimestamp($date): ?string
@@ -102,7 +105,8 @@ class DateHelper
     /**
      * Return date timestamp format.
      *
-     * @param  Carbon|string|null  $date
+     * @param Carbon|string|null  $date
+     *
      * @return string|null
      */
     public static function getDate($date): ?string
@@ -131,7 +135,8 @@ class DateHelper
     /**
      * Return a date in a short format like "Oct 29, 1981".
      *
-     * @param  Carbon  $date
+     * @param Carbon  $date
+     *
      * @return string
      */
     public static function getShortDate(Carbon $date): string
@@ -142,7 +147,8 @@ class DateHelper
     /**
      * Return a date in a full format like "October 29, 1981".
      *
-     * @param  Carbon  $date
+     * @param Carbon  $date
+     *
      * @return string
      */
     public static function getFullDate(Carbon $date): string
@@ -153,7 +159,8 @@ class DateHelper
     /**
      * Return the month of the date like "Oct", or "Dec".
      *
-     * @param  Carbon  $date
+     * @param Carbon  $date
+     *
      * @return string
      */
     public static function getShortMonth(Carbon $date): string
@@ -165,7 +172,8 @@ class DateHelper
      * Return the month and year of the date like "October 2010",
      * or "March 2032".
      *
-     * @param  Carbon  $date
+     * @param Carbon  $date
+     *
      * @return string
      */
     public static function getFullMonthAndDate(Carbon $date): string
@@ -176,7 +184,8 @@ class DateHelper
     /**
      * Return the day of the date like "Mon", or "Wed".
      *
-     * @param  Carbon  $date
+     * @param Carbon  $date
+     *
      * @return string
      */
     public static function getShortDay(Carbon $date): string
@@ -188,7 +197,8 @@ class DateHelper
      * Return a date in a short format
      * like "Oct 29".
      *
-     * @param  Carbon  $date
+     * @param Carbon  $date
+     *
      * @return string
      */
     public static function getShortDateWithoutYear(Carbon $date): string
@@ -200,7 +210,8 @@ class DateHelper
      * Return a date and the time according to the timezone of the user, in a short format
      * like "Oct 29, 1981 19:32".
      *
-     * @param  Carbon  $date
+     * @param Carbon  $date
+     *
      * @return string
      */
     public static function getShortDateWithTime(Carbon $date): string
@@ -211,9 +222,10 @@ class DateHelper
     /**
      * Return a date in a given format.
      *
-     * @param  Carbon  $date
-     * @param  string  $format
-     * @param  bool    $withTimezone
+     * @param Carbon  $date
+     * @param string  $format
+     * @param bool    $withTimezone
+     *
      * @return string
      */
     private static function formatDate(Carbon $date, string $format, bool $withTimezone = false): string
@@ -230,9 +242,10 @@ class DateHelper
     /**
      * Add a given number of week/month/year to a date.
      *
-     * @param  Carbon  $date      The start date.
-     * @param  string  $frequency Week/month/year.
-     * @param  int     $number    The number of week/month/year to increment to.
+     * @param Carbon  $date      The start date.
+     * @param string  $frequency Week/month/year.
+     * @param int     $number    The number of week/month/year to increment to.
+     *
      * @return Carbon
      */
     public static function addTimeAccordingToFrequencyType(Carbon $date, string $frequency, int $number): Carbon
@@ -258,7 +271,8 @@ class DateHelper
      * Get the name of the month and year of a given date with a given number
      * of months more.
      *
-     * @param  int  $month
+     * @param int  $month
+     *
      * @return string
      */
     public static function getMonthAndYear(int $month): string
@@ -274,7 +288,8 @@ class DateHelper
      * This is used on the Upgrade page to tell the user when the next billing
      * date would be if he subscribed.
      *
-     * @param  string  $interval
+     * @param string  $interval
+     *
      * @return Carbon
      */
     public static function getNextTheoriticalBillingDate(string $interval): Carbon
@@ -289,8 +304,9 @@ class DateHelper
     /**
      * Gets a list of all the year from min to max (0 is the current year).
      *
-     * @param  int  $max
-     * @param  int  $min
+     * @param int  $max
+     * @param int  $min
+     *
      * @return Collection
      */
     public static function getListOfYears($max = 120, $min = 0): Collection

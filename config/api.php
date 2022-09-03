@@ -20,7 +20,7 @@ return [
     | calls.
     |
     */
-    'timestamp_format' => env('API_TIMESTAMP_FORMAT', 'Y-m-d H:i'),
+    'timestamp_format' => env('API_TIMESTAMP_FORMAT', 'Y-m-d H:i:s'),
 
     /*
     |--------------------------------------------------------------------------

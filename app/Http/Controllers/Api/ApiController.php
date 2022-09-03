@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Traits\JsonRespondController;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Log;
 
 use function Safe\json_decode;
 

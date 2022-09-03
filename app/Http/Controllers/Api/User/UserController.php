@@ -44,7 +44,7 @@ class UserController extends ApiController
     /**
      * Store a newly created resource in storage.
      *
-     * @param \App\Http\Requests\User\UserRequest  $request
+     * @param UserRequest  $request
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -89,7 +89,7 @@ class UserController extends ApiController
     /**
      * Update the specified resource in storage.
      *
-     * @param \App\Http\Requests\User\UserRequest  $request
+     * @param UserRequest  $request
      * @param int  $userId
      *
      * @return \Illuminate\Http\Response
