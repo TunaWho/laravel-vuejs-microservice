@@ -39,6 +39,7 @@ class UserRequest extends BaseRequest
         }//end if
 
         return [
+            'role_id'    => ['required'],
             'first_name' => [
                 'required',
                 'max:255',

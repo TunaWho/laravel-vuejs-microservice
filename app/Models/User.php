@@ -24,6 +24,7 @@ class User extends Authenticatable
         'first_name',
         'last_name',
         'email',
+        'role_id',
         'password',
     ];
 
@@ -52,5 +53,15 @@ class User extends Authenticatable
     protected function password(): Attribute
     {
         return Attribute::set(fn ($value) => Hash::make($value));
+    }
+
+    /**
+     * Get the role that owns the Role
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
     }
 }

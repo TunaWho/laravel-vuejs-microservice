@@ -21,6 +21,7 @@ class UserResource extends JsonResource
             'first_name' => $this->first_name,
             'last_name'  => $this->last_name,
             'email'      => $this->email,
+            'role'       => $this->role,
             'created_at' => DateHelper::getTimestamp($this->created_at),
             'updated_at' => DateHelper::getTimestamp($this->updated_at),
         ];

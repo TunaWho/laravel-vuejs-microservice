@@ -8,23 +8,13 @@ use App\Services\AbstractBaseService;
 class UserService extends AbstractBaseService
 {
     /**
-     * Constructor function for models are using in this service.
-     *
-     * @param \App\Models\User $modelUser Instance resources.
-     */
-    public function __construct(User $modelUser)
-    {
-        $this->model = $modelUser;
-    }
-
-    /**
      * It returns the latest users from the database
      *
      * @return Model
      */
     public function users()
     {
-        return $this->model->query()->latest();
+        return User::query()->latest();
     }
 
     /**
@@ -36,7 +26,9 @@ class UserService extends AbstractBaseService
      */
     public function getUserBy($id)
     {
-        return $this->model->whereId($id)->firstOrFail();
+        return User::query()
+            ->whereId($id)
+            ->firstOrFail();
     }
 
     /**
@@ -48,7 +40,7 @@ class UserService extends AbstractBaseService
      */
     public function createUser($dataUser)
     {
-        return $this->model->firstOrCreate($dataUser);
+        return User::firstOrCreate($dataUser);
     }
 
     /**
@@ -76,7 +68,7 @@ class UserService extends AbstractBaseService
      */
     public function deleteBy($id)
     {
-        $user = $this->model->findOrFail($id);
+        $user = User::findOrFail($id);
 
         $user->delete();
 
