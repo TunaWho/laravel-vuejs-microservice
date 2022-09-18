@@ -1,24 +1,24 @@
 <?php
 
-namespace App\Http\Controllers\Api\User;
+namespace App\Http\Controllers\Api\Product;
 
 use App\Http\Controllers\Api\ApiController;
-use App\Http\Requests\User\UserRequest;
-use App\Http\Resources\User\UserResource;
-use App\Services\User\UserService;
+use App\Http\Requests\Product\ProductRequest;
+use App\Http\Resources\Product\ProductResource;
+use App\Services\Product\ProductService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 
-class UserController extends ApiController
+class ProductController extends ApiController
 {
     /**
      * Constructor functions for services are used in this controller.
      *
-     * @param \App\Services\User\UserService $userService Instance class.
+     * @param \App\Services\User\ProductService $productService Instance class.
      */
-    public function __construct(protected UserService $userService)
+    public function __construct(protected ProductService $productService)
     {
         parent::__construct();
     }
@@ -31,28 +31,28 @@ class UserController extends ApiController
     public function index()
     {
         try {
-            $users = $this->userService
-                ->users()
+            $products = $this->productService
+                ->products()
                 ->paginate($this->getLimitPerPage());
         } catch (QueryException $e) {
             return $this->respondInvalidQuery();
         }
 
-        return UserResource::collection($users);
+        return ProductResource::collection($products);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param UserRequest  $request
+     * @param ProductRequest  $request
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\Response
      */
-    public function store(UserRequest $request)
+    public function store(ProductRequest $request)
     {
         try {
-            $user = $this->userService
-                ->createUser($request->validated());
+            $product = $this->productService
+                ->createProduct($request->validated());
         } catch (ModelNotFoundException $e) {
             Log::error($e->getMessage());
 
@@ -65,7 +65,7 @@ class UserController extends ApiController
             return $this->respondInvalidQuery();
         }
 
-        return new UserResource($user);
+        return new ProductResource($product);
     }
 
     /**
@@ -78,27 +78,27 @@ class UserController extends ApiController
     public function show($id)
     {
         try {
-            $user = $this->userService->getUserBy($id);
+            $product = $this->productService->getProductBy($id);
         } catch (ModelNotFoundException $e) {
             return $this->respondNotFound();
         }
 
-        return new UserResource($user);
+        return new ProductResource($product);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param UserRequest  $request
-     * @param int  $userId
+     * @param ProductRequest  $request
+     * @param int  $productId
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(UserRequest $request, $userId)
+    public function update(ProductRequest $request, $productId)
     {
         try {
-            $user = $this->userService
-                ->updateBy($userId, array_filter($request->validated()));
+            $product = $this->productService
+                ->updateBy($productId, array_filter($request->validated()));
         } catch (ModelNotFoundException $e) {
             Log::error($e->getMessage());
 
@@ -111,20 +111,20 @@ class UserController extends ApiController
             return $this->respondInvalidQuery();
         }
 
-        return new UserResource($user);
+        return new UserResource($product);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param int  $userId
+     * @param int  $productId
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy($userId)
+    public function destroy($productId)
     {
         try {
-            $this->userService->deleteBy($userId);
+            $this->productService->deleteBy($productId);
         } catch (ModelNotFoundException $e) {
             Log::error($e->getMessage());
 
@@ -137,6 +137,6 @@ class UserController extends ApiController
             return $this->respondInvalidQuery();
         }
 
-        return $this->respondObjectDeleted($userId);
+        return $this->respondObjectDeleted($productId);
     }
 }

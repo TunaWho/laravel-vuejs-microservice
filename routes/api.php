@@ -4,9 +4,9 @@ use App\Http\Controllers\Api\Auth\{
     LoginController,
     RegisterController,
 };
-use App\Http\Controllers\Api\{
-    User\UserController,
-};
+use App\Http\Controllers\Api\Product\ProductController;
+use App\Http\Controllers\Api\Product\UploadImageController;
+use App\Http\Controllers\Api\User\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,8 +33,16 @@ Route::post(
 Route::group([
     'middleware' => ['auth:sanctum'],
 ], function () {
+    Route::post(
+        'image/upload',
+        UploadImageController::class
+    );
     Route::apiResource(
         'users',
         UserController::class
+    );
+    Route::apiResource(
+        'products',
+        ProductController::class
     );
 });
