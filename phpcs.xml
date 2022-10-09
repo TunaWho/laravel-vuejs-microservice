@@ -13,6 +13,12 @@
         <exclude-pattern>routes/*</exclude-pattern>
         <exclude-pattern>config/*</exclude-pattern>
     </rule>
+    <rule ref="Squiz.Commenting.ClassComment.TagNotAllowed">
+        <exclude-pattern>Models/*</exclude-pattern>
+    </rule>
+    <rule ref="Generic.CodeAnalysis.UnusedFunctionParameter.FoundInExtendedClass">
+        <exclude-pattern>Resources/*</exclude-pattern>
+    </rule>
     <rule ref="Squiz.Commenting.FunctionComment">
         <exclude-pattern>Traits/*</exclude-pattern>
     </rule>
@@ -46,6 +52,9 @@
         <severity>0</severity>
     </rule>
     <rule ref="Squiz.Commenting.ClassComment.Missing">
+        <severity>0</severity>
+    </rule>
+    <rule ref="Squiz.PHP.DisallowComparisonAssignment.AssignedComparison">
         <severity>0</severity>
     </rule>
     <rule ref="Squiz.ControlStructures.SwitchDeclaration.BreakIndent">

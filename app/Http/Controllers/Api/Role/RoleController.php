@@ -1,24 +1,20 @@
 <?php
 
-namespace App\Http\Controllers\Api\User;
+namespace App\Http\Controllers\Api\Role;
 
 use App\Http\Controllers\Api\ApiController;
-use App\Http\Requests\User\UserRequest;
-use App\Http\Resources\User\UserResource;
-use App\Services\User\UserService;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Database\QueryException;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Validation\ValidationException;
+use App\Http\Requests\Role\RoleRequest;
+use App\Http\Resources\Role\RoleResource;
+use App\Services\Role\RoleService;
 
-class UserController extends ApiController
+class RoleController extends ApiController
 {
     /**
      * A constructor for services is used in this controller.
      *
-     * @param \App\Services\User\UserService $userService Instance class.
+     * @param RoleService $roleService Instance class.
      */
-    public function __construct(protected UserService $userService)
+    public function __construct(protected RoleService $roleService)
     {
         parent::__construct();
     }
@@ -31,28 +27,28 @@ class UserController extends ApiController
     public function index()
     {
         try {
-            $users = $this->userService
-                ->users()
+            $roles = $this->roleService
+                ->roles()
                 ->paginate($this->getLimitPerPage());
         } catch (QueryException $e) {
             return $this->respondInvalidQuery();
         }
 
-        return UserResource::collection($users);
+        return RoleResource::collection($roles);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param UserRequest  $request
+     * @param RoleRequest  $request
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\Response
      */
-    public function store(UserRequest $request)
+    public function store(RoleRequest $request)
     {
         try {
-            $user = $this->userService
-                ->createUser($request->validated());
+            $role = $this->roleService
+                ->createNewRole($request->validated());
         } catch (ModelNotFoundException $e) {
             Log::error($e->getMessage());
 
@@ -65,47 +61,40 @@ class UserController extends ApiController
             return $this->respondInvalidQuery();
         }
 
-        return new UserResource($user);
+        return new RoleResource($role);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param int  $id
+     * @param int  $roleId
      *
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($roleId)
     {
         try {
-            $user = $this->userService->getUserById($id);
+            $role = $this->roleService->getRoleById($roleId);
         } catch (ModelNotFoundException $e) {
             return $this->respondNotFound();
         }
 
-        return (new UserResource($user))
-            ->additional(
-                [
-                    'data' => [
-                        'permissions' => $user->permissions(),
-                    ],
-                ]
-            );
+        return new RoleResource($role);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param UserRequest  $request
-     * @param int  $userId
+     * @param RoleRequest  $request
+     * @param int  $roleId
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(UserRequest $request, $userId)
+    public function update(RoleRequest $request, $roleId)
     {
         try {
-            $user = $this->userService
-                ->updateById($userId, array_filter($request->validated()));
+            $role = $this->roleService
+                ->updateById($roleId, array_filter($request->validated()));
         } catch (ModelNotFoundException $e) {
             Log::error($e->getMessage());
 
@@ -118,20 +107,20 @@ class UserController extends ApiController
             return $this->respondInvalidQuery();
         }
 
-        return new UserResource($user);
+        return new RoleResource($role);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param int  $userId
+     * @param int  $roleId
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy($userId)
+    public function destroy($roleId)
     {
         try {
-            $this->userService->deleteById($userId);
+            $this->roleService->deleteById($roleId);
         } catch (ModelNotFoundException $e) {
             Log::error($e->getMessage());
 
@@ -144,6 +133,6 @@ class UserController extends ApiController
             return $this->respondInvalidQuery();
         }
 
-        return $this->respondObjectDeleted($userId);
+        return $this->respondObjectDeleted($roleId);
     }
 }

@@ -24,7 +24,7 @@ class UserService extends AbstractBaseService
      *
      * @return User
      */
-    public function getUserBy($id)
+    public function getUserById($id)
     {
         return User::query()
             ->whereId($id)
@@ -51,9 +51,9 @@ class UserService extends AbstractBaseService
      *
      * @return User User created.
      */
-    public function updateBy($userId, $data)
+    public function updateById($userId, $data)
     {
-        $user = $this->getUserBy($userId);
+        $user = $this->getUserById($userId);
         $user->update($data);
 
         return $user;
@@ -66,9 +66,9 @@ class UserService extends AbstractBaseService
      *
      * @return bool
      */
-    public function deleteBy($id)
+    public function deleteById($id)
     {
-        $user = User::findOrFail($id);
+        $user = $this->getUserById($id);
 
         $user->delete();
 

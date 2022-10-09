@@ -14,9 +14,9 @@ use Illuminate\Validation\ValidationException;
 class ProductController extends ApiController
 {
     /**
-     * Constructor functions for services are used in this controller.
+     * A constructor for services is used in this controller.
      *
-     * @param \App\Services\User\ProductService $productService Instance class.
+     * @param ProductService $productService Instance class.
      */
     public function __construct(protected ProductService $productService)
     {
@@ -78,7 +78,7 @@ class ProductController extends ApiController
     public function show($id)
     {
         try {
-            $product = $this->productService->getProductBy($id);
+            $product = $this->productService->getProductById($id);
         } catch (ModelNotFoundException $e) {
             return $this->respondNotFound();
         }
@@ -98,7 +98,7 @@ class ProductController extends ApiController
     {
         try {
             $product = $this->productService
-                ->updateBy($productId, array_filter($request->validated()));
+                ->updateById($productId, array_filter($request->validated()));
         } catch (ModelNotFoundException $e) {
             Log::error($e->getMessage());
 
@@ -111,7 +111,7 @@ class ProductController extends ApiController
             return $this->respondInvalidQuery();
         }
 
-        return new UserResource($product);
+        return new ProductResource($product);
     }
 
     /**
@@ -124,7 +124,7 @@ class ProductController extends ApiController
     public function destroy($productId)
     {
         try {
-            $this->productService->deleteBy($productId);
+            $this->productService->deleteById($productId);
         } catch (ModelNotFoundException $e) {
             Log::error($e->getMessage());
 

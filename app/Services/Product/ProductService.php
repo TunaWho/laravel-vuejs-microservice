@@ -36,7 +36,7 @@ class ProductService extends AbstractBaseService
      *
      * @return Product
      */
-    public function getProductBy($id)
+    public function getProductById($id)
     {
         return Product::query()
             ->whereId($id)
@@ -51,9 +51,9 @@ class ProductService extends AbstractBaseService
      *
      * @return Product product that was updated.
      */
-    public function updateBy($productId, $data)
+    public function updateById($productId, $data)
     {
-        $product = $this->getProductBy($productId);
+        $product = $this->getProductById($productId);
         $product->update($data);
 
         return $product;
@@ -62,13 +62,13 @@ class ProductService extends AbstractBaseService
     /**
      * It deletes a product from the database
      *
-     * @param int $id The id of the product you want to delete.
+     * @param int $productId The id of the product you want to delete.
      *
      * @return bool.
      */
-    public function deleteBy($id)
+    public function deleteById($productId)
     {
-        $product = Product::findOrFail($id);
+        $product = $this->getProductById($productId);
 
         $product->delete();
 
