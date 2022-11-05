@@ -6,12 +6,21 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Traits\JsonRespondController;
 use Auth;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class LoginController extends Controller
 {
     use JsonRespondController;
+
+    /**
+     * @param Authenticatable $user
+     */
+    public function __construct(
+        private ?Authenticatable $user
+    ) {
+    }
 
     /**
      * Log in a user and returns an accessToken.
@@ -36,15 +45,32 @@ class LoginController extends Controller
             $user  = Auth::user();
             $token = $user->createToken('admin')->plainTextToken;
 
+            $authCookie = cookie('jwt', $token, 3600);
+
             return $this->respond(
                 [
                     'access_token' => $token,
                     'token_type'   => 'Bearer',
                 ]
-            );
+            )->withCookie($authCookie);
         }
 
         return $this->respondUnauthorized();
+    }
+
+    /**
+     * It deletes the current access token and returns a response
+     *
+     * @return \Illuminate\Http\JsonResponse.
+     */
+    public function logout()
+    {
+        $this->user?->currentAccessToken()->delete();
+        $authCookie = cookie()->forget('jwt');
+
+        return $this->respond(
+            ['message' => 'logged out']
+        )->withCookie($authCookie);
     }
 
     /**

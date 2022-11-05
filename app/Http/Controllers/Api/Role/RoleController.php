@@ -6,6 +6,10 @@ use App\Http\Controllers\Api\ApiController;
 use App\Http\Requests\Role\RoleRequest;
 use App\Http\Resources\Role\RoleResource;
 use App\Services\Role\RoleService;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 
 class RoleController extends ApiController
 {
@@ -26,6 +30,8 @@ class RoleController extends ApiController
      */
     public function index()
     {
+        $this->authorizeViewFor('roles');
+
         try {
             $roles = $this->roleService
                 ->roles()
@@ -46,6 +52,8 @@ class RoleController extends ApiController
      */
     public function store(RoleRequest $request)
     {
+        $this->authorizeEditFor('roles');
+
         try {
             $role = $this->roleService
                 ->createNewRole($request->validated());
@@ -73,6 +81,8 @@ class RoleController extends ApiController
      */
     public function show($roleId)
     {
+        $this->authorizeViewFor('roles');
+
         try {
             $role = $this->roleService->getRoleById($roleId);
         } catch (ModelNotFoundException $e) {
@@ -92,6 +102,8 @@ class RoleController extends ApiController
      */
     public function update(RoleRequest $request, $roleId)
     {
+        $this->authorizeEditFor('roles');
+
         try {
             $role = $this->roleService
                 ->updateById($roleId, array_filter($request->validated()));
@@ -119,6 +131,8 @@ class RoleController extends ApiController
      */
     public function destroy($roleId)
     {
+        $this->authorizeEditFor('roles');
+
         try {
             $this->roleService->deleteById($roleId);
         } catch (ModelNotFoundException $e) {

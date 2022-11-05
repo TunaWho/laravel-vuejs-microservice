@@ -64,6 +64,8 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
+        'created_at',
+        'updated_at',
         'password',
         'remember_token',
     ];
@@ -96,12 +98,24 @@ class User extends Authenticatable
     }
 
     /**
-     * Return array permission names
+     * Return permission names
      *
-     * @return array
+     * @return object
      */
     public function permissions()
     {
-        return Role::find($this->role->id)->permissions->pluck('name');
+        return $this->role->permissions->pluck('name');
+    }
+
+    /**
+     * If the user's role has the permission, return true
+     *
+     * @param string $access The name of the permission you want to check for.
+     *
+     * @return bool
+     */
+    public function hasAccess($access)
+    {
+        return $this->permissions()->contains($access);
     }
 }

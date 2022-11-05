@@ -4,10 +4,12 @@ use App\Http\Controllers\Api\Auth\{
     LoginController,
     RegisterController,
 };
+use App\Http\Controllers\Api\Dashboard\DashboardController;
 use App\Http\Controllers\Api\Order\ExportController;
 use App\Http\Controllers\Api\Order\OrderController;
 use App\Http\Controllers\Api\Product\ProductController;
 use App\Http\Controllers\Api\Product\UploadImageController;
+use App\Http\Controllers\Api\Role\PermissionController;
 use App\Http\Controllers\Api\Role\RoleController;
 use App\Http\Controllers\Api\User\UserController;
 use Illuminate\Support\Facades\Route;
@@ -26,12 +28,11 @@ use Illuminate\Support\Facades\Route;
 Route::post(
     '/login',
     [LoginController::class, 'login']
-)->name('login');
-
+);
 Route::post(
     '/register',
     [RegisterController::class, 'register']
-)->name('register');
+);
 Route::get(
     'orders/export',
     ExportController::class
@@ -41,8 +42,20 @@ Route::group([
     'middleware' => ['auth:sanctum'],
 ], function () {
     Route::post(
+        '/logout',
+        [LoginController::class, 'logout']
+    );
+    Route::post(
         'image/upload',
         UploadImageController::class
+    );
+    Route::get(
+        'permissions',
+        PermissionController::class
+    );
+    Route::get(
+        'chart',
+        DashboardController::class
     );
     Route::apiResource(
         'users',

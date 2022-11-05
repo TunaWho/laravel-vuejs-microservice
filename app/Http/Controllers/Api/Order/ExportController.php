@@ -15,6 +15,8 @@ class ExportController extends ApiController
      */
     public function __invoke()
     {
+        $this->authorizeViewFor('orders');
+
         try {
             return (new OrdersExport())->download();
         } catch (\Exception $e) {

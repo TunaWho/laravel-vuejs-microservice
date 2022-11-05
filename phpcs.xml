@@ -16,8 +16,9 @@
     <rule ref="Squiz.Commenting.ClassComment.TagNotAllowed">
         <exclude-pattern>Models/*</exclude-pattern>
     </rule>
-    <rule ref="Generic.CodeAnalysis.UnusedFunctionParameter.FoundInExtendedClass">
+    <rule ref="Generic.CodeAnalysis.UnusedFunctionParameter">
         <exclude-pattern>Resources/*</exclude-pattern>
+        <exclude-pattern>app/Policies/*</exclude-pattern>
     </rule>
     <rule ref="Squiz.Commenting.FunctionComment">
         <exclude-pattern>Traits/*</exclude-pattern>

@@ -20,6 +20,16 @@ class RoleService extends AbstractBaseService
     }
 
     /**
+     * Return all the permissions.
+     *
+     * @return Role
+     */
+    public function permissions()
+    {
+        return Permission::query()->latest();
+    }
+
+    /**
      * Save a new role into the system and assigns permissions to it.
      *
      * @param array $roleData An array role data.

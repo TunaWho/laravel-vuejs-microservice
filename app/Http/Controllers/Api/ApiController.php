@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Traits\JsonRespondController;
+use Gate;
 use Illuminate\Http\Response;
 
 use function Safe\json_decode;
@@ -50,6 +51,7 @@ class ApiController extends Controller
                     }
                 } catch (\Safe\Exceptions\JsonException $e) {
                     // No error.
+                    \Log::info($e->getMessage());
                 }
 
                 return $next($request);
@@ -75,5 +77,25 @@ class ApiController extends Controller
         $this->limitPerPage = $limit;
 
         return $this;
+    }
+
+    /**
+     * @param string  $model The model wants to authorize.
+     *
+     * @return Gate
+     */
+    public function authorizeViewFor($model)
+    {
+        return Gate::authorize('view', $model);
+    }
+
+    /**
+     * @param string  $model The model wants to authorize.
+     *
+     * @return Gate
+     */
+    public function authorizeEditFor($model)
+    {
+        return Gate::authorize('edit', $model);
     }
 }

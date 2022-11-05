@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api\Order;
 use App\Http\Controllers\Api\ApiController;
 use App\Http\Resources\Order\OrderResource;
 use App\Services\Order\OrderService;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
 
 class OrderController extends ApiController
 {
@@ -25,6 +27,8 @@ class OrderController extends ApiController
      */
     public function index()
     {
+        $this->authorizeViewFor('orders');
+
         try {
             $orders = $this->orderService
                 ->orders()
@@ -45,6 +49,8 @@ class OrderController extends ApiController
      */
     public function show($orderId)
     {
+        $this->authorizeEditFor('orders');
+
         try {
             $order = $this->orderService->getOrderById($orderId);
         } catch (ModelNotFoundException $e) {

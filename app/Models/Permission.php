@@ -22,6 +22,17 @@ class Permission extends Model
     use HasFactory;
 
     /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+        'pivot',
+    ];
+
+    /**
      * The roles that belong to the permission.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany

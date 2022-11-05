@@ -30,6 +30,8 @@ class UserController extends ApiController
      */
     public function index()
     {
+        $this->authorizeViewFor('users');
+
         try {
             $users = $this->userService
                 ->users()
@@ -50,6 +52,8 @@ class UserController extends ApiController
      */
     public function store(UserRequest $request)
     {
+        $this->authorizeEditFor('users');
+
         try {
             $user = $this->userService
                 ->createUser($request->validated());
@@ -103,6 +107,8 @@ class UserController extends ApiController
      */
     public function update(UserRequest $request, $userId)
     {
+        $this->authorizeEditFor('users');
+
         try {
             $user = $this->userService
                 ->updateById($userId, array_filter($request->validated()));
@@ -130,6 +136,8 @@ class UserController extends ApiController
      */
     public function destroy($userId)
     {
+        $this->authorizeEditFor('users');
+
         try {
             $this->userService->deleteById($userId);
         } catch (ModelNotFoundException $e) {

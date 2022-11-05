@@ -30,6 +30,8 @@ class ProductController extends ApiController
      */
     public function index()
     {
+        $this->authorizeViewFor('products');
+
         try {
             $products = $this->productService
                 ->products()
@@ -50,6 +52,8 @@ class ProductController extends ApiController
      */
     public function store(ProductRequest $request)
     {
+        $this->authorizeEditFor('products');
+
         try {
             $product = $this->productService
                 ->createProduct($request->validated());
@@ -77,6 +81,8 @@ class ProductController extends ApiController
      */
     public function show($id)
     {
+        $this->authorizeViewFor('products');
+
         try {
             $product = $this->productService->getProductById($id);
         } catch (ModelNotFoundException $e) {
@@ -96,6 +102,8 @@ class ProductController extends ApiController
      */
     public function update(ProductRequest $request, $productId)
     {
+        $this->authorizeEditFor('products');
+
         try {
             $product = $this->productService
                 ->updateById($productId, array_filter($request->validated()));
@@ -123,6 +131,8 @@ class ProductController extends ApiController
      */
     public function destroy($productId)
     {
+        $this->authorizeEditFor('products');
+
         try {
             $this->productService->deleteById($productId);
         } catch (ModelNotFoundException $e) {
